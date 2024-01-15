@@ -23,13 +23,10 @@ class Entries extends React.Component {
         this.setCorsQuery = this.setCorsQuery.bind(this)
     }
 
+    componentDidUpdate() {
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps['searchQuery']) {
-            this.setState({page: 0})
-        }
     }
-
+    
     render() {
         let allEntries = this.props.entries
         let entries = this.getEntries()
