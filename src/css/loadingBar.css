@@ -1,0 +1,4 @@
+.loadingBar > .modal-dialog > .modal-content {
+    background-color: rgba(0,0,0,.0001) !important;
+    border-color: rgba(0,0,0,.0001) !important;
+}
