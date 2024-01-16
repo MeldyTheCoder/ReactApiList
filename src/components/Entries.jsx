@@ -1,7 +1,9 @@
 import React from "react";
 import Entry from './Entry';
+import ErrorBlock from "./ErrorBlock";
 import Paginator from './Paginator';
-import {Row, Col, Badge, InputGroup, Form, Alert} from 'react-bootstrap';
+import FadeAnimation from "./FadeAnimation";
+import {Row, Col, Badge, InputGroup, Form} from 'react-bootstrap';
 
 const itemsPerPage = 10
 
@@ -13,7 +15,8 @@ class Entries extends React.Component {
             categoryQuery: '',
             page: 0,
             hasHTTPS: null,
-            hasCors: null
+            hasCors: null,
+            collapse: false
         }
 
         this.setCategoryQuery = this.setCategoryQuery.bind(this)
@@ -22,25 +25,21 @@ class Entries extends React.Component {
         this.setHttpsQuery = this.setHttpsQuery.bind(this)
         this.setCorsQuery = this.setCorsQuery.bind(this)
     }
-
-    componentDidUpdate() {
-
-    }
     
     render() {
-        let allEntries = this.props.entries
-        let entries = this.getEntries()
-        let paginatedEntries = this.paginateEntries(entries)
-        let categories = this.getCategories()
-        let isNotFound = !(entries && entries.length > 0 && paginatedEntries && paginatedEntries.length > 0)
-        let hasEntries = allEntries && allEntries.length > 0
-        let page = this.state.page
+        const allEntries = this.props.entries
+        const entries = this.getEntries()
+        const paginatedEntries = this.paginateEntries(entries)
+        const categories = this.getCategories()
+        const isNotFound = !(entries && entries.length > 0 && paginatedEntries && paginatedEntries.length > 0)
+        const hasEntries = allEntries && allEntries.length > 0
+        const page = this.state.page
 
         return (
                 <div className="entriesList">
                     {categories.length > 1 && 
-                        <>
-                            <div className="categoryList">
+                        <FadeAnimation>
+                            <div className="categoriesList">
                                 <Badge pill className="m-1" key={'empty'} bg={this.state.categoryQuery === '' ? 'secondary': 'primary'} onClick={this.clearCategoryQuery}>All</Badge>
 
                                 {categories.map((category) => (
@@ -48,37 +47,37 @@ class Entries extends React.Component {
                                 ))}
                                 
                                 <hr></hr>
+
+                                <Row>
+                                    <Col sm={6}>
+                                        <div className="py-2 m-2">
+                                            <InputGroup>
+                                                <InputGroup.Text color="warning">HTTPS</InputGroup.Text>
+                                                <Form.Select onChange={this.setHttpsQuery}>
+                                                    <option value="">Any</option>
+                                                    <option value={true}>True</option>
+                                                    <option value={false}>False</option>
+                                                </Form.Select>
+                                            </InputGroup>
+                                            </div>
+                                    
+                                    </Col>
+
+                                    <Col sm={6}>
+                                        <div className="py-2 m-2">
+                                            <InputGroup>
+                                                <InputGroup.Text color="warning">Cors</InputGroup.Text>
+                                                <Form.Select onChange={this.setCorsQuery}>
+                                                    <option value="">Any</option>
+                                                    <option value={true}>True</option>
+                                                    <option value={false}>False</option>
+                                                </Form.Select>
+                                            </InputGroup>
+                                        </div>
+                                    </Col>
+                                </Row>
                             </div>
-
-                            <Row>
-                                <Col sm={6}>
-                                    <div className="py-2 m-2">
-                                        <InputGroup>
-                                            <InputGroup.Text color="warning">HTTPS</InputGroup.Text>
-                                            <Form.Select onChange={this.setHttpsQuery}>
-                                                <option value="">Any</option>
-                                                <option value={true}>True</option>
-                                                <option value={false}>False</option>
-                                            </Form.Select>
-                                        </InputGroup>
-                                     </div>
-                                
-                                </Col>
-
-                                <Col sm={6}>
-                                    <div className="py-2 m-2">
-                                        <InputGroup>
-                                            <InputGroup.Text color="warning">Cors</InputGroup.Text>
-                                            <Form.Select onChange={this.setCorsQuery}>
-                                                <option value="">Any</option>
-                                                <option value={true}>True</option>
-                                                <option value={false}>False</option>
-                                            </Form.Select>
-                                        </InputGroup>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </>
+                        </FadeAnimation>
                     }
 
                     {!isNotFound &&
@@ -90,17 +89,7 @@ class Entries extends React.Component {
                     }
 
                     {isNotFound && hasEntries && 
-                        <Row className="py-5">
-                            <Alert className="text-center" variant="warning">
-                                <Alert.Heading>
-                                    {"Oops, 404 :("}
-                                </Alert.Heading>
-                                <hr></hr>
-                                <p>
-                                    Nothing was found for your request
-                                </p>
-                            </Alert>
-                        </Row>
+                        <ErrorBlock errorTitle="Ooops 404 :(" errorText="Nothing found for your request."/>
                     }
 
                     <Row>
