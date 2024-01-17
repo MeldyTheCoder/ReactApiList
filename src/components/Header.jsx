@@ -7,7 +7,7 @@ class Header extends React.Component {
     render() {
         return (
             <Navbar className="bg-body-secondary mb-5">
-                <Container>
+                <Container className="text-center">
                     <Navbar.Brand>
                     <img
                         alt=""
