@@ -1,6 +1,7 @@
 import React from "react";
 import { Pagination } from "react-bootstrap";
 
+
 class Paginator extends React.Component {
     constructor(props) {
         super(props)

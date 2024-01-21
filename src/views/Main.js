@@ -75,13 +75,18 @@ class Main extends React.Component {
     return entryRequest.then(
       (response) => {
         this.setState({isLoading: false})
-        this.setEntries(response.data.entries)
+        this.setEntries(response.data.entries.map(this._mapEntries))
       }
     ).catch(
       (error) => {
         console.log(error)
       }
     )
+  }
+
+  _mapEntries(value, index) {
+      value['id'] = index
+      return value
   }
 
   serviceIsAlive() {
@@ -115,8 +120,8 @@ class Main extends React.Component {
     this.setState({entries: entries})
   }
 
-  deleteEntry(entry_id) {
-    this.setState({entries: this.state.entries.filter((entry, index) => index !== entry_id)})
+  deleteEntry(entryId) {
+    this.setState({entries: this.state.entries.filter((entry) => entryId !== entry.id)})
   }
 }
 

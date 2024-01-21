@@ -28,6 +28,10 @@ class Entry extends React.Component {
         )
     }
 
+    componentWillUnmount() {
+        this.setState({isLoading: true})
+    }
+
     render() {
         const loading = this.props.isLoading || this.state.isLoading || false
 
@@ -110,7 +114,7 @@ class Entry extends React.Component {
     }
 
     delete() {
-        return this.props.deleteFunc(this.props.data_id)
+        return this.props.deleteFunc(this.props.data.id)
     }
 }
 

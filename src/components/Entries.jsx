@@ -82,8 +82,8 @@ class Entries extends React.Component {
 
                     {!isNotFound &&
                         <>
-                            {paginatedEntries.map((entry, index) => (
-                                <Entry data={entry} key={index} data_id={index} deleteFunc={this.props.deleteFunc}></Entry>
+                            {paginatedEntries.map((entry) => (
+                                <Entry data={entry} key={entry.id} deleteFunc={this.props.deleteFunc}></Entry>
                             ))}
                         </>
                     }
@@ -94,7 +94,7 @@ class Entries extends React.Component {
 
                     <Row>
                         <Col className="d-flex justify-content-center">
-                            <Paginator elements={entries} currentPage={page} setPage={this.setPage}/>
+                            <Paginator elements={entries} currentPage={page} setPage={this.setPage} elementsPerPage={itemsPerPage}/>
                         </Col>
                     </Row>
                 </div>

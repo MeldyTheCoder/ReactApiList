@@ -1,6 +1,8 @@
 import React from "react";
 import { Alert, Row } from "react-bootstrap";
 import FadeAnimation from "./FadeAnimation";
+import Sticker from "./Sticker";
+import ThinkingFace from '../animations/012_thinking_face.webm';
 
 
 class ErrorBlock extends React.Component {
@@ -13,7 +15,12 @@ class ErrorBlock extends React.Component {
                 <Row className="py-5">
                     <Alert className="text-center" variant="warning">
                         <Alert.Heading>
-                            {errorTitle}
+                            <div className="d-flex justify-content-center align-items-center">
+                                <Sticker src={ThinkingFace} width={50} height={50}/>
+
+                                {errorTitle}
+                            </div>
+
                         </Alert.Heading>
                         <hr></hr>
                         <p>
