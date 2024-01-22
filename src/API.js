@@ -1,15 +1,19 @@
-import axios from "axios";
 
 
 class Api {
     constructor(requestTimeout=1000, defaultHeaders=null) {
       this.baseUrl = 'https://api.publicapis.org'
       
-      this.defaultHeaders = defaultHeaders || {}
+      this.defaultHeaders = defaultHeaders || {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+      }
+
       this.sleepTime = requestTimeout || 1000
   
       this.sleep = () => new Promise(r => setTimeout(r, this.sleepTime));
-  
+
       this.apiUrls = {
         serviceIsAlive: {
           url: `${this.baseUrl}/health`, 
@@ -47,29 +51,30 @@ class Api {
       let func = null
       const endpointHeaders = endpoint.headers
       const defaultHeaders = this.defaultHeaders
-      const requiresData = endpoint.requiresData
-      const headers = endpointHeaders ? {...endpointHeaders, ...defaultHeaders} : defaultHeaders
+      const headers = endpointHeaders && endpointHeaders !== defaultHeaders ? {...endpointHeaders, ...defaultHeaders} : defaultHeaders
   
       const functionData = {
           method: endpoint.method,
-          url: endpoint.url,
           headers: headers,
+          mode: 'no-cors',
+          withCredentials: false
       }
   
-      if (requiresData) {
-        func = async (data) => {
-          Object.assign(functionData, {data: data})
-          return this.sleep().then(() => {return axios(functionData)})
-        }
-      } else {
-        func = async () => {
-          return this.sleep().then(() => {return axios(functionData)})
-        }
+      func = async (data=null) => {
+        return this.sleep().then(async () => {return await this._requestMethod(endpoint.url, functionData, data)})
       }
   
       return func
     }
-  
+    
+    async _requestMethod(url, functionData, data=null) {
+      if (data) {
+        Object.assign(functionData, {data: JSON.stringify(data)})
+      }
+
+      return fetch(url, functionData)
+    }
+
     _createMethods() {
       for (const [name, endpoint] of Object.entries(this.apiUrls)) {
           this[name] = this._createMethod(endpoint)

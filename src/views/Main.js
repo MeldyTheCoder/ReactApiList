@@ -74,8 +74,10 @@ class Main extends React.Component {
 
     return entryRequest.then(
       (response) => {
+        let data = response
+        console.log(data)
         this.setState({isLoading: false})
-        this.setEntries(response.data.entries.map(this._mapEntries))
+        this.setEntries(data.entries.map(this._mapEntries))
       }
     ).catch(
       (error) => {
@@ -98,7 +100,12 @@ class Main extends React.Component {
       }
     ).then(
       (response) => {
-        return response && response.data.alive
+        if (!response) {
+          return false
+        }
+
+        let data = response.json()
+        return data.alive
       }
     )
   }
