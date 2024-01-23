@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     container_name: react_api_list_container
+    volumes:
+      - ./ssl:/etc/nginx/ssl
     ports:
       - "80:80"
       - "443:443"

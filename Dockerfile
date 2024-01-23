@@ -8,10 +8,13 @@ COPY . /app
 RUN npm run build
 
 
-FROM nginx:alpine
+FROM umputun/nginx-le
+
+ENV LETSENCRYPT=true
+ENV LE_EMAIL=cool.groshelev@mail.ru
+ENV LE_FQDN=publicapis.sunday-projects.ru
 
 WORKDIR /usr/local/bin
 
 COPY --from=prod /app/build /usr/share/nginx/html
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d
+COPY nginx.conf /etc/nginx/service.conf
