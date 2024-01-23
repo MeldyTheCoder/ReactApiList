@@ -69,7 +69,7 @@ class Api {
         Object.assign(functionData, {body: JSON.stringify(data)})
       }
 
-      return await axios.request(functionData)
+      return axios(url, functionData)
     }
 
     _createMethods() {
