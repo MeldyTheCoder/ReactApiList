@@ -1,14 +1,11 @@
+import axios from "axios";
 
 
 class Api {
     constructor(requestTimeout=1000, defaultHeaders=null) {
       this.baseUrl = 'https://api.publicapis.org'
       
-      this.defaultHeaders = defaultHeaders || {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'
-      }
+      this.defaultHeaders = defaultHeaders || null
 
       this.sleepTime = requestTimeout || 1000
   
@@ -54,9 +51,9 @@ class Api {
       const headers = endpointHeaders && endpointHeaders !== defaultHeaders ? {...endpointHeaders, ...defaultHeaders} : defaultHeaders
   
       const functionData = {
+          url: endpoint.url,
           method: endpoint.method,
           headers: headers,
-          mode: 'no-cors',
           withCredentials: false
       }
   
@@ -69,10 +66,10 @@ class Api {
     
     async _requestMethod(url, functionData, data=null) {
       if (data) {
-        Object.assign(functionData, {data: JSON.stringify(data)})
+        Object.assign(functionData, {body: JSON.stringify(data)})
       }
 
-      return fetch(url, functionData)
+      return await axios.request(functionData)
     }
 
     _createMethods() {

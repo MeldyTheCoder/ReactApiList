@@ -74,8 +74,7 @@ class Main extends React.Component {
 
     return entryRequest.then(
       (response) => {
-        let data = response
-        console.log(data)
+        let data = response.data
         this.setState({isLoading: false})
         this.setEntries(data.entries.map(this._mapEntries))
       }
