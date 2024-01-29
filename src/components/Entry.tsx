@@ -1,14 +1,18 @@
-import React from "react";
+import React, {ReactElement} from "react";
 import {Card, CardBody, CardText, Button, Badge, CardHeader, Col, Placeholder} from 'react-bootstrap';
 import { FaTrashCan } from "react-icons/fa6";
 import FadeAnimation from "./FadeAnimation";
+import {IEntryProps, IEntryState, AnimationType} from '../interfaces/IEntry';
 
 
-class Entry extends React.Component {
-    constructor(props) {
+class Entry extends React.Component<IEntryProps, IEntryState> {
+    animation: AnimationType
+    sleep: CallableFunction
+
+    constructor(props: IEntryProps) {
         super(props)
 
-        this.sleep = (ms) => new Promise(r => setTimeout(r, ms));
+        this.sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
         this.delete = this.delete.bind(this)
         this.animation = "glow"
@@ -18,7 +22,7 @@ class Entry extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         if (this.props.isLoading) {
             return
         }
@@ -28,14 +32,14 @@ class Entry extends React.Component {
         )
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         this.setState({isLoading: true})
     }
 
-    render() {
-        const loading = this.props.isLoading || this.state.isLoading || false
+    render(): React.ReactElement {
+        const loading: boolean = this.props.isLoading || this.state.isLoading || false
 
-        let cardBody = (
+        let cardBody: ReactElement = (
             <>
                 <CardText>
                     <Badge pill className="m-1">{this.props.data.Category}</Badge>
@@ -53,13 +57,13 @@ class Entry extends React.Component {
             </>
         )
         
-        let deleteButton = (
+        let deleteButton: ReactElement = (
             <Button variant="outline-danger" onClick={this.delete}>
                 <FaTrashCan/>
             </Button>
         )
 
-        let cardTitle = (this.props.data.API)
+        let cardTitle: ReactElement | string = (this.props.data.API)
 
         if (loading) {
             cardBody = (
@@ -113,7 +117,7 @@ class Entry extends React.Component {
         )
     }
 
-    delete() {
+    delete(): CallableFunction {
         return this.props.deleteFunc(this.props.data.id)
     }
 }

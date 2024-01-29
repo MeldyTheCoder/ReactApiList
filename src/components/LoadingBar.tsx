@@ -1,11 +1,12 @@
 import React from "react";
 import { Modal, Container, Row, Col } from "react-bootstrap";
 import { ScaleLoader } from 'react-spinners';
+import { ILoadingBarProps, ILoadingBarState } from "../interfaces/ILoadingBar";
 // import '../css/loadingBar.css';
 
 
-class LoadingBar extends React.Component {
-    render() {
+class LoadingBar extends React.Component<ILoadingBarProps, ILoadingBarState> {
+    render(): React.ReactElement {
         return (
             <Modal
                 size="sm"
@@ -17,7 +18,7 @@ class LoadingBar extends React.Component {
                     <Container>
                         <Row>
                             <Col className="d-flex justify-content-center">
-                                <ScaleLoader color="#0D6EFD" size={200} loading={this.props.show}/>
+                                <ScaleLoader color="#0D6EFD" loading={this.props.show}/>
                             </Col>
                         </Row>
                     </Container>

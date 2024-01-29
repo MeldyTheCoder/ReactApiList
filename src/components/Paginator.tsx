@@ -1,21 +1,24 @@
 import React from "react";
 import { Pagination } from "react-bootstrap";
+import { ElementsType, ElementsPerPageType, PageNumberType, IPaginatorProps, IPaginatorState } from "../interfaces/IPaginator";
 
 
-class Paginator extends React.Component {
-    constructor(props) {
+class Paginator extends React.Component<IPaginatorProps, IPaginatorState> {
+    elementsPerPage: ElementsPerPageType
+
+    constructor(props: IPaginatorProps) {
         super(props)
 
         this.elementsPerPage = this.props.elementsPerPage || 10
         this.setPage = this.setPage.bind(this)
     }
 
-    render() {
-        let firstPage = this.getFirstPage()
-        let lastPage = this.getLastPage()
-        let nextPage = this.getNextPage()
-        let previosPage = this.getPreviousPage()
-        let currentPage = this.getCurrentPage()
+    render(): React.ReactElement {
+        let firstPage: PageNumberType = this.getFirstPage()
+        let lastPage: PageNumberType = this.getLastPage()
+        let nextPage: PageNumberType = this.getNextPage()
+        let previosPage: PageNumberType = this.getPreviousPage()
+        let currentPage: PageNumberType = this.getCurrentPage()
 
         return (
             <div className="pagination">
@@ -30,11 +33,11 @@ class Paginator extends React.Component {
         )
     }
 
-    getCurrentPage() {
+    getCurrentPage(): PageNumberType {
         return this.props.currentPage
     }
 
-    getElements() {
+    getElements(): ElementsType {
         let elements = this.props.elements
 
         if (!elements) {
@@ -44,38 +47,38 @@ class Paginator extends React.Component {
         return elements
     }
 
-    getTotalPages() {
+    getTotalPages(): PageNumberType {
         let elements = this.getElements()
         return Math.ceil(elements.length / this.elementsPerPage)
     }
 
-    hasPages() {
+    hasPages(): boolean {
         let totalPages = this.getTotalPages()
         return totalPages > 1
     }
 
-    hasNextPage() {
+    hasNextPage(): boolean {
         let currentPage = this.getCurrentPage()
         let lastPage = this.getLastPage()
 
         return currentPage < lastPage
     }
 
-    hasLastPage() {
+    hasLastPage(): boolean {
         let currentPage = this.getCurrentPage()
         let lastPage = this.getLastPage()
 
         return currentPage < lastPage 
     }
 
-    hasPreviousPage() {
+    hasPreviousPage(): boolean {
         let currentPage = this.getCurrentPage()
         let firstPage = this.getFirstPage()
 
         return currentPage > firstPage
     }
 
-    hasFirstPage() {
+    hasFirstPage(): boolean {
         let totalPages = this.getTotalPages()
         let currentPage = this.getCurrentPage()
         let firstPage = this.getFirstPage()
@@ -83,26 +86,26 @@ class Paginator extends React.Component {
         return totalPages > 1 && currentPage > firstPage
     }
 
-    getFirstPage() {
+    getFirstPage(): PageNumberType {
         return 0
     }
 
-    getLastPage() {
+    getLastPage(): PageNumberType {
         let totalPages = this.getTotalPages()
         return totalPages - 1
     }
 
-    getNextPage() {
+    getNextPage(): PageNumberType {
         let currentPage = this.getCurrentPage()
         return currentPage + 1
     }
 
-    getPreviousPage() {
+    getPreviousPage(): PageNumberType {
         let currentPage = this.getCurrentPage()
         return currentPage - 1
     }
 
-    setPage(page_number) {
+    setPage(page_number: PageNumberType): void {
         let lastPage = this.getLastPage()
         let firstPage = this.getFirstPage()
 

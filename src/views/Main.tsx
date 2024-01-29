@@ -4,18 +4,20 @@ import Entries from '../components/Entries';
 import {Container, Row, Col} from 'react-bootstrap';
 import LoadingBar from "../components/LoadingBar";
 import Header from '../components/Header';
+import { IMainViewState, IMainViewProps, IEntryType, IEntryListType, ResponseType} from '../interfaces/IMainView';
+import { AxiosError, AxiosResponse } from 'axios';
 
 
 const API = new Api()
 
 
-class Main extends React.Component {
-  constructor(props) {
+class Main extends React.Component<IMainViewProps, IMainViewState> {
+  constructor(props: any) {
     super(props)
 
     this.state = {
       entries: [],
-      search_query: '',
+      searchQuery: '',
       isLoading: true
     }
 
@@ -24,16 +26,16 @@ class Main extends React.Component {
     this.setSearchQuery = this.setSearchQuery.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.loadEntries()
   }
 
-  render() {
+  render(): React.ReactElement {
     let isLoading = this.state.isLoading
 
     return (
       <>
-        <Header/>
+        <Header />
 
         <Container>
             <Row>
@@ -42,13 +44,13 @@ class Main extends React.Component {
                 </Col>
             </Row>
             
-            <LoadingBar show={isLoading}></LoadingBar>
+            <LoadingBar show={isLoading} />
 
             <div className='py-3'>
                 <Entries 
                 entries={this.state.entries} 
                 deleteFunc={this.deleteEntry} 
-                searchQuery={this.state.search_query}
+                searchQuery={this.state.searchQuery}
                 />
             </div>
         </Container>
@@ -56,8 +58,8 @@ class Main extends React.Component {
     )
   }
 
-  loadEntries() {
-    const serviceIsAlive = true
+  async loadEntries(): Promise<void> {
+    const serviceIsAlive: boolean = true
 
     this.setEntries([])
 
@@ -70,35 +72,35 @@ class Main extends React.Component {
         return 
     }
 
-    const entryRequest = API.getEntries()
+    const entryRequest: ResponseType = API.getEntries()
 
     return entryRequest.then(
-      (response) => {
+      (response: AxiosResponse) => {
         let data = response.data
         this.setState({isLoading: false})
         this.setEntries(data.entries.map(this._mapEntries))
       }
     ).catch(
-      (error) => {
+      (error: AxiosError) => {
         console.log(error)
       }
     )
   }
 
-  _mapEntries(value, index) {
+  _mapEntries(value: IEntryType, index: number): IEntryType {
       value['id'] = index
       return value
   }
 
-  serviceIsAlive() {
+  serviceIsAlive(): boolean {
     const serviceIsAliveRequest = API.serviceIsAlive()
 
     return serviceIsAliveRequest.catch(
-      (error) => {
+      (error: any) => {
         return false
       }
     ).then(
-      (response) => {
+      (response: any) => {
         if (!response) {
           return false
         }
@@ -109,16 +111,16 @@ class Main extends React.Component {
     )
   }
 
-  setSearchQuery(e) {
-    let search_query = e.target.value 
-    this.setSearchQueryText(search_query)
+  setSearchQuery(event: any) {
+    let searchQuery = event.target.value 
+    this.setSearchQueryText(searchQuery)
   }
 
-  setSearchQueryText(text) {
-    this.setState({search_query: text})
+  setSearchQueryText(text: string) {
+    this.setState({searchQuery: text})
   }
 
-  setEntries(entries) {
+  setEntries(entries: IEntryListType) {
     if (!entries) {
       return
     }
@@ -126,7 +128,7 @@ class Main extends React.Component {
     this.setState({entries: entries})
   }
 
-  deleteEntry(entryId) {
+  deleteEntry(entryId: number) {
     this.setState({entries: this.state.entries.filter((entry) => entryId !== entry.id)})
   }
 }

@@ -4,11 +4,12 @@ import ErrorBlock from "./ErrorBlock";
 import Paginator from './Paginator';
 import FadeAnimation from "./FadeAnimation";
 import {Row, Col, Badge, InputGroup, Form} from 'react-bootstrap';
+import { IEntryType, IEntryListType, IEntriesProps, IEntriesState } from "../interfaces/IEntries";
 
-const itemsPerPage = 10
+const itemsPerPage: number = 10
 
-class Entries extends React.Component {
-    constructor(props) {
+class Entries extends React.Component<IEntriesProps, IEntriesState> {
+    constructor(props: IEntriesProps) {
         super(props)
 
         this.state = {
@@ -26,14 +27,14 @@ class Entries extends React.Component {
         this.setCorsQuery = this.setCorsQuery.bind(this)
     }
     
-    render() {
-        const allEntries = this.props.entries
-        const entries = this.getEntries()
-        const paginatedEntries = this.paginateEntries(entries)
-        const categories = this.getCategories()
-        const isNotFound = !(entries && entries.length > 0 && paginatedEntries && paginatedEntries.length > 0)
-        const hasEntries = allEntries && allEntries.length > 0
-        const page = this.state.page
+    render(): React.ReactElement {
+        const allEntries: IEntryListType = this.props.entries
+        const entries: IEntryListType = this.getEntries()
+        const paginatedEntries: IEntryListType = this.paginateEntries(entries)
+        const categories: Array<string> = this.getCategories()
+        const isNotFound: boolean = !(entries && entries.length > 0 && paginatedEntries && paginatedEntries.length > 0)
+        const hasEntries: boolean = allEntries && allEntries.length > 0
+        const page: number = this.state.page
 
         return (
                 <div className="entriesList">
@@ -55,8 +56,8 @@ class Entries extends React.Component {
                                                 <InputGroup.Text color="warning">HTTPS</InputGroup.Text>
                                                 <Form.Select onChange={this.setHttpsQuery}>
                                                     <option value="">Any</option>
-                                                    <option value={true}>True</option>
-                                                    <option value={false}>False</option>
+                                                    <option value="true">True</option>
+                                                    <option value="false">False</option>
                                                 </Form.Select>
                                             </InputGroup>
                                             </div>
@@ -69,8 +70,8 @@ class Entries extends React.Component {
                                                 <InputGroup.Text color="warning">Cors</InputGroup.Text>
                                                 <Form.Select onChange={this.setCorsQuery}>
                                                     <option value="">Any</option>
-                                                    <option value={true}>True</option>
-                                                    <option value={false}>False</option>
+                                                    <option value="true">True</option>
+                                                    <option value="false">False</option>
                                                 </Form.Select>
                                             </InputGroup>
                                         </div>
@@ -101,24 +102,24 @@ class Entries extends React.Component {
             )
     }
 
-    setPage(page_number) {
+    setPage(page_number: number = 0): void {
         this.setState({page: page_number})        
     }
 
-    clearCategoryQuery() {
+    clearCategoryQuery(): void {
         this.setState({categoryQuery: '', page: 0})
     }
 
-    globalIndexOfEntry(entry) {
+    globalIndexOfEntry(entry: IEntryType): number {
         return this.props.entries.indexOf(entry)
     }
 
-    setCategoryQuery(e) {
-        let categoryName = e.target.innerText
+    setCategoryQuery(event: any): void {
+        let categoryName = event.target.innerText
         this.setState({categoryQuery: categoryName, page: 0})
     }
 
-    setHttpsQuery(event) {
+    setHttpsQuery(event: any): void {
         let hasHTTPS = event.target.value
 
         if (hasHTTPS === '') {
@@ -130,7 +131,7 @@ class Entries extends React.Component {
         this.setState({hasHTTPS: hasHTTPS})
     }
 
-    setCorsQuery(event) {
+    setCorsQuery(event: any): void {
         let hasCors = event.target.value 
 
         if (hasCors === '') {
@@ -142,14 +143,14 @@ class Entries extends React.Component {
         this.setState({hasCors: hasCors})
     }
 
-    getCategories() {
+    getCategories(): Array<string> {
         let entries = this.props.entries
         let categoriesArray = entries.map((entry) => entry.Category)
         let categoriesSet = new Set(categoriesArray)
         return [...categoriesSet]
     }
 
-    paginateEntries(entries) {
+    paginateEntries(entries: IEntryListType): IEntryListType {
         if (!entries) {
             return []
         }
@@ -159,7 +160,7 @@ class Entries extends React.Component {
         return paginatedEntries
     }
 
-    getEntries() {
+    getEntries(): IEntryListType {
         let entries = this.props.entries
         let searchQuery = this.props.searchQuery
         let categoryQuery = this.state.categoryQuery
