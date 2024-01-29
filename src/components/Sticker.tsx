@@ -61,7 +61,7 @@ class Sticker extends React.Component<IStickerProps, IStickerState> {
 
     __getImageView(fileUrl: URLType, width: SizeType | undefined = 100, heigth: SizeType | undefined = 100): React.ReactElement {
         return (
-            <img src={fileUrl} width={width} height={heigth} />
+            <img src={fileUrl} width={width} height={heigth} alt="Sticker" />
         )
     }
 }
