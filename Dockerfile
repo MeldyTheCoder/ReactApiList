@@ -3,6 +3,7 @@ FROM node:16.3.0-alpine AS prod
 WORKDIR /app
 COPY package.json package-lock.json /app
 RUN npm install -g npm
+RUN npm install --save typescript @types/node @types/react @types/react-dom @types/jest
 RUN npm install
 
 COPY . /app
