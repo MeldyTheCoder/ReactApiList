@@ -1,16 +1,8 @@
-import axios, { AxiosHeaders, AxiosResponse } from "axios";
-import { IAPIEndpointsListInterface, IAPIEndpointDetail, HeadersType, URLType, MethodType, DataType } from "./interfaces/IAPIEndpoint";
+import axios, { AxiosHeaders } from "axios";
+import { IAPIEndpointsListInterface, IAPIEndpointDetail, HeadersType, URLType, DataType, IFunctionData, ResponseType } from "./interfaces/IAPIEndpoint";
 
 
-interface IFunctionData {
-    url: URLType,
-    method: MethodType,
-    headers: HeadersType,
-    withCredentials: boolean
-}
-
-
-class Api {
+export default class Api {
     [x: string]: any;
     readonly baseUrl: URLType
     readonly defaultHeaders: HeadersType
@@ -77,7 +69,7 @@ class Api {
       return func
     }
     
-    async _requestMethod(url: URLType, functionData: IFunctionData, data: DataType = null): Promise<AxiosResponse<any, any>> {
+    async _requestMethod(url: URLType, functionData: IFunctionData, data: DataType = null): ResponseType {
       return axios(url, {...functionData, ...{body: data}})
     }
 
@@ -87,5 +79,3 @@ class Api {
       }
     }
 }
-
-export default Api

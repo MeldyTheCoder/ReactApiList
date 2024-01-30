@@ -9,4 +9,7 @@ interface IHeaderState {
 
 }
 
-export type {IHeaderProps, IHeaderState}
+export type {
+    IHeaderProps, 
+    IHeaderState
+}

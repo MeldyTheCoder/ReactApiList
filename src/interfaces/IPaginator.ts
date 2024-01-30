@@ -15,4 +15,10 @@ interface IPaginatorState {
 }
 
 
-export type {ElementsType, ElementsPerPageType, PageNumberType, IPaginatorProps, IPaginatorState}
+export type {
+    ElementsType,
+    ElementsPerPageType, 
+    PageNumberType, 
+    IPaginatorProps, 
+    IPaginatorState
+}

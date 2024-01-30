@@ -25,5 +25,10 @@ interface IEntryState {
 }
 
 
-export type {IEntry, IEntryProps, IEntryState, AnimationType}
+export type {
+    IEntry, 
+    IEntryProps, 
+    IEntryState, 
+    AnimationType
+}
 

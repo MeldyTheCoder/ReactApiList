@@ -19,4 +19,9 @@ interface IEntriesState {
     collapse: boolean
 }
 
-export type {IEntryType, IEntryListType, IEntriesProps, IEntriesState}
+export type {
+    IEntryType, 
+    IEntryListType, 
+    IEntriesProps,
+    IEntriesState,
+}

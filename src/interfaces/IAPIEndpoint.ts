@@ -20,6 +20,12 @@ interface IAPIEndpointsListInterface {
     [key: string]: IAPIEndpointDetail
 }
 
+interface IFunctionData {
+    url: URLType,
+    method: MethodType,
+    headers: HeadersType,
+    withCredentials: boolean
+}
 
 export type {
     DataType, 
@@ -29,5 +35,6 @@ export type {
     MethodType, 
     IAPIEndpointDetail, 
     IAPIEndpointsListInterface, 
-    ResponseType
+    ResponseType,
+    IFunctionData
 }

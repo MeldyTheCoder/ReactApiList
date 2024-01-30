@@ -10,4 +10,7 @@ interface ILoadingBarState {
 }
 
 
-export type {ILoadingBarProps, ILoadingBarState}
+export type {
+    ILoadingBarProps, 
+    ILoadingBarState
+}

@@ -37,4 +37,13 @@ interface IStickerState {
 }
 
 
-export type {IStickerExtensionTypes, IStickerProps, IStickerState, LoopType, URLType, SizeType, ImageExtensions, VideoExtensions}
+export type {
+    IStickerExtensionTypes, 
+    IStickerProps, 
+    IStickerState, 
+    LoopType, 
+    URLType, 
+    SizeType, 
+    ImageExtensions, 
+    VideoExtensions
+}

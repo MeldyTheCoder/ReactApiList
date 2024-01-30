@@ -9,4 +9,7 @@ interface IErrorBlockState {
 
 }
 
-export type {IErrorBlockProps, IErrorBlockState}
+export type {
+    IErrorBlockProps, 
+    IErrorBlockState
+}

@@ -10,4 +10,7 @@ interface IFadeAnimationState {
     show: boolean
 }
 
-export type {IFadeAnimationProps, IFadeAnimationState}
+export type {
+    IFadeAnimationProps, 
+    IFadeAnimationState
+}

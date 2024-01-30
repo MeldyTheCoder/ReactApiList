@@ -4,6 +4,7 @@ import Entries from '../components/Entries';
 import {Container, Row, Col} from 'react-bootstrap';
 import LoadingBar from "../components/LoadingBar";
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { IMainViewState, IMainViewProps, IEntryType, IEntryListType, ResponseType} from '../interfaces/IMainView';
 import { AxiosError, AxiosResponse } from 'axios';
 
@@ -11,7 +12,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 const API = new Api()
 
 
-class Main extends React.Component<IMainViewProps, IMainViewState> {
+export default class Main extends React.Component<IMainViewProps, IMainViewState> {
   constructor(props: any) {
     super(props)
 
@@ -37,7 +38,7 @@ class Main extends React.Component<IMainViewProps, IMainViewState> {
       <>
         <Header />
 
-        <Container>
+        <Container className='min-vh-100'>
             <Row>
                 <Col className='d-flex justify-content-center'>
                     <input className="form-control" type='text' placeholder='Search...' onChange={this.setSearchQuery}></input>
@@ -54,6 +55,8 @@ class Main extends React.Component<IMainViewProps, IMainViewState> {
                 />
             </div>
         </Container>
+
+        <Footer />
       </>
     )
   }
@@ -132,5 +135,3 @@ class Main extends React.Component<IMainViewProps, IMainViewState> {
     this.setState({entries: this.state.entries.filter((entry) => entryId !== entry.id)})
   }
 }
-
-export default Main;
