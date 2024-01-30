@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json /app
 RUN npm install -g npm
 RUN npm install --save typescript @types/node @types/react @types/react-dom @types/jest
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . /app
 RUN npm run build
